@@ -83,7 +83,7 @@ public class ChargerRollerEnemy : RollerEnemy
         rb.angularVelocity = rightDir * localVel.x + upDir * localVel.y + forwardDir * localVel.z;
     }
 
-    public void OnCollisionStay(Collision collision)
+    public void OnCollision(Collision collision)
     {
         if (chargeState != ChargeState.CHARGE || !collision.rigidbody || !collision.rigidbody.CompareTag(playerTag))
             return;
@@ -96,6 +96,16 @@ public class ChargerRollerEnemy : RollerEnemy
 
         remainingCooldown = exhaustDuration;
         chargeState = ChargeState.EXHAUSTED;
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        OnCollision(collision);
+    }
+
+    public void OnCollisionStay(Collision collision)
+    {
+        OnCollision(collision);
     }
 
     public new void OnDrawGizmos()

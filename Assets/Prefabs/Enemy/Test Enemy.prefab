@@ -162,7 +162,7 @@ MonoBehaviour:
   chargeState: 0
   chargeDecelTime: 0.5
   chargeJumpTime: 0.5
-  chargeDuration: 0.5
+  chargeDuration: 0.75
   exhaustDuration: 2
   chargeCooldown: 1
   chargeRadius: 2
