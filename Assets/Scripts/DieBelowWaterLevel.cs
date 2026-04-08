@@ -11,7 +11,7 @@ public class DieBelowWaterLevel : MonoBehaviour
         if (entity == null)
             entity = GetComponent<Entity>();
 
-        if (transform.position.y < GameManager.instance.waterLevel)
+        if (transform.position.y < GameManager.GetInstance().waterLevel)
             entity.Die();
     }
 }

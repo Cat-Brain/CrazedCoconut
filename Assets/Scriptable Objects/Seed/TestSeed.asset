@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71c7786b6ae1b754e858d20981f8b67b, type: 3}
+  m_Name: TestSeed
+  m_EditorClassIdentifier: Assembly-CSharp::Seed
+  prefab: {fileID: 6520981457346405788, guid: 2e610db6f84f2a846bb77747649de238, type: 3}
+  hVelMul: 1
+  vVel: 5
+  rotate3D: 1
+  maxRotVel: 0.5

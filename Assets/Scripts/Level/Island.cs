@@ -33,6 +33,8 @@ public class Island : MonoBehaviour
         enemySpawner.spawnRadius = spawnRadius;
 
         enemySpawner.SpawnWave();
+
+        GameManager.GetInstance().combatEnter?.Invoke();
     }
 
     void Update()
@@ -51,6 +53,8 @@ public class Island : MonoBehaviour
 
         foreach (Gate gate in gates)
             gate.SetActive(false);
+
+        GameManager.GetInstance().combatExit?.Invoke();
     }
 
     void OnDrawGizmos()

@@ -92,8 +92,6 @@ public class ChargerRollerEnemy : RollerEnemy
             collision.rigidbody.AddForceAtPosition(
                 -hitForce / collision.contactCount * contact.normal, contact.point, ForceMode.Impulse);
 
-        Debug.Log(collision.contactCount);
-
         remainingCooldown = exhaustDuration;
         chargeState = ChargeState.EXHAUSTED;
     }

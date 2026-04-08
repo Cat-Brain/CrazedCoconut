@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public enum Difficulty
@@ -15,7 +16,7 @@ public enum GameState
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    private static GameManager instance;
     public EnemySpawnManager enemySpawnManager; // BAD SYSTEM PLEASE REPLACE LATER
     public PlayerManager playerManager; // BAD SYSTEM PLEASE REPLACE LATER
 
@@ -35,10 +36,18 @@ public class GameManager : MonoBehaviour
     public GameState gameState;
     public bool paused;
 
+    public UnityEvent combatEnter, combatExit;
+
     private static void TryFindInstance()
     {
         if (instance == null)
             instance = FindAnyObjectByType<GameManager>();
+    }
+
+    public static GameManager GetInstance()
+    {
+        TryFindInstance();
+        return instance; // REPLACE THIS LATER!
     }
 
     public static void SetPlayerManager(PlayerManager playerManager)
