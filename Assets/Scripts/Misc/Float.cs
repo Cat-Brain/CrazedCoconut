@@ -12,7 +12,7 @@ public class Float : MonoBehaviour
         if (rb == null)
             rb = GetComponent<Rigidbody>();
 
-        if (transform.position.y >= GameManager.GetInstance().waterLevel)
+        if (transform.position.y >= GameManager.Instance.waterLevel)
             return;
 
         rb.AddForce(Vector3.up * buoyancy);

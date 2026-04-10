@@ -17,7 +17,7 @@ public class Enemy : Entity
         GameManager.SpawnSmoke(transform.position, smokeScale);
         transform.DOScale(transform.localScale, spawnDuration).From(0);
 
-        player = GameManager.GetInstance().playerManager.transform;
+        player = PlayerManager.Instance.transform;
     }
 
     public override void OnDeath()

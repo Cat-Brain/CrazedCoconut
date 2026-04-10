@@ -16,10 +16,9 @@ GameObject:
   - component: {fileID: 6509061721654812266}
   - component: {fileID: 2995601328681806268}
   - component: {fileID: 55590101598027803}
-  - component: {fileID: 2266437617365156570}
-  - component: {fileID: 7726908604982508683}
-  - component: {fileID: 5487451424185071731}
   - component: {fileID: 3187411104266032362}
+  - component: {fileID: 7228085510232440305}
+  - component: {fileID: 2065998985902400683}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -107,7 +106,7 @@ MonoBehaviour:
   deathTick: 0
   alive: 1
   move: {fileID: 55590101598027803}
-  ability: {fileID: 2266437617365156570}
+  ability: {fileID: 0}
   active: 1
 --- !u!114 &3235614676798710907
 MonoBehaviour:
@@ -168,75 +167,6 @@ MonoBehaviour:
   accel: 50
   speed: 10
   moveState: 0
---- !u!114 &2266437617365156570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 67551434205001339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc3e007b5a96c7a4ea01dd0f9f8d55f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerGrow
-  manager: {fileID: 3302534203138791783}
-  action: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  held: 0
-  rb: {fileID: 4572547981552278588}
-  cooldown: 3
-  accel: 50
-  speed: 10
-  baseSize: 1
-  growSize: 1
-  baseMass: 1
-  growMass: 10
-  growFrequency: 15
-  growDamping: 0.5
-  isActive: 0
---- !u!114 &7726908604982508683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 67551434205001339}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 938f95d5b17b5784abe01baba8b0fd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
-  manager: {fileID: 3302534203138791783}
-  action: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  held: 0
-  col: {fileID: 612878272666383951}
-  rb: {fileID: 4572547981552278588}
-  cooldown: 3
-  dashDuration: 1
-  dashMass: 1
-  dashMat: {fileID: 13400000, guid: 1d52a4eb664f87f41b0c44df8232156e, type: 2}
-  dashForce: 20
-  dashSpeed: 5
-  isActive: 0
---- !u!114 &5487451424185071731
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 67551434205001339}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cc0256f64309de4d8e1378145add1ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerExplode
-  manager: {fileID: 3302534203138791783}
-  action: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  held: 0
-  cooldown: 2
-  explosionRadius: 1
-  explosionForce: 5
-  explosionPrefab: {fileID: 1012011692588947349, guid: ea012ac7e93eea042b4107b41bdd94de, type: 3}
 --- !u!114 &3187411104266032362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,6 +181,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SetGameStateOnTick
   tickIndex: 0
   gameState: 3
+--- !u!114 &7228085510232440305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67551434205001339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5358214e08407404dbefd527c9c30fe3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerPlant
+  manager: {fileID: 3302534203138791783}
+  playAction: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  discardAction: {fileID: -3058672010984557719, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  rb: {fileID: 4572547981552278588}
+  deck: {fileID: 2065998985902400683}
+--- !u!114 &2065998985902400683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67551434205001339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b67688bad1cda374289288214ac4669f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Deck
+  player: {fileID: 7228085510232440305}
+  startingDeck:
+  - {fileID: 11400000, guid: df1ac405a2343c045b8a71395f7bf100, type: 2}
+  - {fileID: 11400000, guid: df1ac405a2343c045b8a71395f7bf100, type: 2}
+  - {fileID: 11400000, guid: df1ac405a2343c045b8a71395f7bf100, type: 2}
+  - {fileID: 11400000, guid: df1ac405a2343c045b8a71395f7bf100, type: 2}
+  - {fileID: 11400000, guid: df1ac405a2343c045b8a71395f7bf100, type: 2}
+  - {fileID: 11400000, guid: b604bc609bbb97c4a932bd57d5a5758a, type: 2}
+  - {fileID: 11400000, guid: b604bc609bbb97c4a932bd57d5a5758a, type: 2}
+  - {fileID: 11400000, guid: b604bc609bbb97c4a932bd57d5a5758a, type: 2}
+  - {fileID: 11400000, guid: b604bc609bbb97c4a932bd57d5a5758a, type: 2}
+  - {fileID: 11400000, guid: b604bc609bbb97c4a932bd57d5a5758a, type: 2}
+  deck: []
+  draw: []
+  discard: []
+  exhaust: []
+  hand:
+    seed: {fileID: 0}
+    pile: 0
+  timeTillDraw: 0
 --- !u!1001 &8573948587041968874
 PrefabInstance:
   m_ObjectHideFlags: 0

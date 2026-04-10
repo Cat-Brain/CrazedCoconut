@@ -9,18 +9,19 @@ public enum Difficulty
     EASY, MEDIUM, HARD
 }
 
-public enum GameState
-{
-    MAIN_MENU, IN_GAME, WIN, LOSE, CLOSE_GAME
-}
-
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
-    public EnemySpawnManager enemySpawnManager; // BAD SYSTEM PLEASE REPLACE LATER
-    public PlayerManager playerManager; // BAD SYSTEM PLEASE REPLACE LATER
+    public static GameManager Instance { get
+        {
+            if (instance == null)
+                instance = FindAnyObjectByType<GameManager>();
+            return instance;
+        } }
 
-    public Canvas loseCanvas, winCanvas;
+    public List<Menu> menus;
+    public string startMenuPath;
+
     public TextMeshProUGUI speedrunText;
 
     public GameObject smokePrefab;
@@ -30,70 +31,56 @@ public class GameManager : MonoBehaviour
 
     public List<float> enemyPointStart, enemyPointsPerIsland;
 
+    public UnityEvent combatEnter, combatExit;
+
     public Difficulty difficulty;
     public float startTime, finishTime;
 
-    public GameState gameState;
+    public List<int> menuPath;
     public bool paused;
-
-    public UnityEvent combatEnter, combatExit;
-
-    private static void TryFindInstance()
-    {
-        if (instance == null)
-            instance = FindAnyObjectByType<GameManager>();
-    }
-
-    public static GameManager GetInstance()
-    {
-        TryFindInstance();
-        return instance; // REPLACE THIS LATER!
-    }
-
-    public static void SetPlayerManager(PlayerManager playerManager)
-    {
-        TryFindInstance();
-        instance.playerManager = playerManager;
-    }
-
-    public static void SetPlayerManager(EnemySpawnManager enemySpawnManager)
-    {
-        TryFindInstance();
-        instance.enemySpawnManager = enemySpawnManager;
-    }
 
     public static int IslandIndexToEnemyPoints(int islandIndex)
     {
-        TryFindInstance();
-
-        return Mathf.FloorToInt(instance.enemyPointStart[(int)instance.difficulty] +
-            islandIndex * instance.enemyPointStart[(int)instance.difficulty]);
+        return Mathf.FloorToInt(Instance.enemyPointStart[(int)Instance.difficulty] +
+            islandIndex * Instance.enemyPointStart[(int)Instance.difficulty]);
     }
 
     public static GameObject SpawnSmoke(Vector3 pos, float scale = 1)
     {
-        TryFindInstance();
-
         GameObject newSmoke = Instantiate(instance.smokePrefab, pos, Quaternion.identity);
         newSmoke.transform.localScale *= scale;
         return newSmoke;
     }
 
-    public static void SetGameState(GameState gameState)
+    public void SetMenu(string path)
     {
-        TryFindInstance();
-
-        if (instance.gameState == gameState)
+        if (path == "")
             return;
 
-        switch (instance.gameState)
+        string[] parsedPath = path.Split('/');
+        foreach (string direction in parsedPath)
+        {
+            if (direction == "..")
+            {
+                menus[menuPath[^1]].SetActivate(false);
+                menuPath.RemoveAt(menuPath.Count);
+                continue;
+            }
+
+            int index = menus.FindIndex((menu) => menu.internalName == direction);
+            menus[index].SetActivate(true);
+            menuPath.Add(index);
+        }
+
+
+        /*switch (instance.gameState)
         {
             case GameState.MAIN_MENU:
                 SceneManager.LoadScene(instance.inGameScene);
                 break;
 
             case GameState.IN_GAME:
-                instance.playerManager.active = false;
+                PlayerManager.Instance.active = false;
                 break;
 
             case GameState.LOSE:
@@ -115,8 +102,8 @@ public class GameManager : MonoBehaviour
                 if (instance.gameState != GameState.MAIN_MENU)
                     SceneManager.LoadScene(instance.inGameScene);
 
-                if (instance.playerManager)
-                    instance.playerManager.active = true;
+                if (PlayerManager.Instance)
+                    PlayerManager.Instance.active = true;
                 instance.startTime = Time.time;
                 break;
 
@@ -132,6 +119,11 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        instance.gameState = gameState;
+        instance.gameState = gameState;*/
+    }
+
+    void Start()
+    {
+        SetMenu(startMenuPath);   
     }
 }

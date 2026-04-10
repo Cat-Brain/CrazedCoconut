@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2902712267227499970}
   - component: {fileID: 8013360102307883127}
   - component: {fileID: 2267224417895612201}
+  - component: {fileID: -5344300929331210854}
   m_Layer: 7
   m_Name: Test Seed
   m_TagString: Untagged
@@ -140,3 +141,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-5344300929331210854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6520981457346405788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecb8c0635cf3d4142bea1f8db01b36b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScaleOnStart
+  from: 0
+  to: 1
+  duration: 0.5
+  ease: 6
+  onComplete:
+    m_PersistentCalls:
+      m_Calls: []

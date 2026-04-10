@@ -34,7 +34,7 @@ public class Island : MonoBehaviour
 
         enemySpawner.SpawnWave();
 
-        GameManager.GetInstance().combatEnter?.Invoke();
+        GameManager.Instance.combatEnter?.Invoke();
     }
 
     void Update()
@@ -54,7 +54,7 @@ public class Island : MonoBehaviour
         foreach (Gate gate in gates)
             gate.SetActive(false);
 
-        GameManager.GetInstance().combatExit?.Invoke();
+        GameManager.Instance.combatExit?.Invoke();
     }
 
     void OnDrawGizmos()

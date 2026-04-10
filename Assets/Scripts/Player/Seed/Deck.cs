@@ -116,7 +116,7 @@ public class Deck : MonoBehaviour
         ResetPiles();
     }
 
-    public GameObject PlayCard()
+    public GameObject Play()
     {
         if (hand == null)
             return null;
@@ -126,9 +126,17 @@ public class Deck : MonoBehaviour
         return oldHand.Spawn(player);
     }
 
+    public void Discard()
+    {
+        if (hand == null)
+            return;
+
+        DiscardHand(DeckPile.DISCARD);
+    }
+
     void Awake()
     {
-        GameManager.GetInstance().combatEnter.AddListener(EnterCombat);
+        GameManager.Instance.combatEnter.AddListener(EnterCombat);
 
         foreach (Seed seed in startingDeck)
             deck.Add(new SeedInstance(seed, DeckPile.DECK));
