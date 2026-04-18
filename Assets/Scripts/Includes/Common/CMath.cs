@@ -195,6 +195,11 @@ namespace ClownLib
             return new Vector3(original.x, original.y, z);
         }
 
+        public static Vector3 Mul3(Vector3 a, Vector3 b)
+        {
+            return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
+        }
+
         public static Vector3 Div3(Vector3 numerator, Vector3 denominator)
         {
             return new Vector3(numerator.x / denominator.x, numerator.y / denominator.y, numerator.z / denominator.z);
@@ -499,6 +504,11 @@ namespace ClownLib
         public static Vector3 SetZ(this Vector3 original, float z = 0)
         {
             return CMath.SetZ_3(original, z);
+        }
+
+        public static Vector3 Mul(this Vector3 a, Vector3 b)
+        {
+            return CMath.Mul3(a, b);
         }
 
         public static Vector3 Div(this Vector3 numerator, Vector3 denominator)

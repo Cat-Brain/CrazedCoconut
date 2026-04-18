@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 2902712267227499970}
   - component: {fileID: 8013360102307883127}
   - component: {fileID: 2267224417895612201}
-  - component: {fileID: -5344300929331210854}
+  - component: {fileID: 3496529254026082781}
+  - component: {fileID: 3125078282816900099}
   m_Layer: 7
   m_Name: Test Seed
   m_TagString: Untagged
@@ -100,7 +101,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6520981457346405788}
-  m_Material: {fileID: 13400000, guid: 3208f453efd569d4083f44e282674821, type: 2}
+  m_Material: {fileID: 13400000, guid: 1beea7fde7486bf429ceff647382354d, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -141,7 +142,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-5344300929331210854
+--- !u!114 &3496529254026082781
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,9 +151,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 6520981457346405788}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecb8c0635cf3d4142bea1f8db01b36b5, type: 3}
+  m_Script: {fileID: 11500000, guid: 421d593248608e041a78189bb68ae295, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScaleOnStart
+  m_EditorClassIdentifier: Assembly-CSharp::EventOnStart
+  onStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3125078282816900099}
+        m_TargetAssemblyTypeName: ScaleObject, Assembly-CSharp
+        m_MethodName: Activate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3125078282816900099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6520981457346405788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56cba217fde943d439c54717d5604763, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScaleObject
   from: 0
   to: 1
   duration: 0.5

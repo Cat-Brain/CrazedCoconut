@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Enemy : Entity
 {
-    public EnemySpawner spawner;
-
     public float smokeScale, spawnDuration;
     public int spawnPoints, spawnProgressionStart, spawnProgressionEnd;
 
@@ -23,28 +21,27 @@ public class Enemy : Entity
     public override void OnDeath()
     {
         base.OnDeath();
-        spawner.currentEnemies.Remove(this);
+        EnemySpawnManager.Instance.currentEnemies.Remove(this);
     }
 
-    public Enemy SimpleSpawn(Vector3 pos, EnemySpawner spawner)
+    public Enemy SimpleSpawn(Vector3 pos)
     {
-        Enemy enemy = Instantiate(gameObject, pos, Random.rotation, spawner.transform).GetComponent<Enemy>();
-        enemy.spawner = spawner;
+        Enemy enemy = Instantiate(gameObject, pos, Random.rotation).GetComponent<Enemy>();
         return enemy;
     }
 
-    public Enemy Spawn(Vector3 pos, EnemySpawner spawner)
+    public Enemy Spawn(Vector3 pos)
     {
-        Enemy enemy = SimpleSpawn(pos, spawner);
+        Enemy enemy = SimpleSpawn(pos);
         enemy.Init();
         return enemy;
     }
 
-    public Enemy DelayedSpawn(Vector3 pos, float delay, EnemySpawner spawner)
+    public Enemy DelayedSpawn(Vector3 pos, float delay)
     {
-        Enemy enemy = SimpleSpawn(pos, spawner);
+        Enemy enemy = SimpleSpawn(pos);
         enemy.gameObject.SetActive(false);
-        spawner.StartCoroutine(enemy.ActivateOnDelay(delay));
+        EnemySpawnManager.Instance.StartCoroutine(enemy.ActivateOnDelay(delay));
         return enemy;
     }
 

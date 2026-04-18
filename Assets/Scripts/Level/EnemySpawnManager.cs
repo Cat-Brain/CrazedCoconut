@@ -1,42 +1,53 @@
+using ClownLib;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawnManager : MonoBehaviour
 {
-    public static EnemySpawnManager instance;
+    private static EnemySpawnManager instance;
+    public static EnemySpawnManager Instance
+    { get {
+            if (instance == null)
+                instance = FindAnyObjectByType<EnemySpawnManager>();
+            return instance;
+    } }
 
     public List<Enemy> spawnableEnemies;
-    public float spawnDelay, spawnDelayPerEnemy;
+    public float spawnDelay, spawnDelayPerEnemy, spawnRadius;
 
-    public static void TryFindInstance()
+    public List<(Enemy type, int count)> toSpawnEnemies = new();
+    public List<Enemy> currentEnemies = new();
+
+    public int RemainingEnemiesToSpawn()
     {
-        if (!instance)
-            instance = FindAnyObjectByType<EnemySpawnManager>();
+        int result = 0;
+        foreach ((Enemy _, int count) in toSpawnEnemies)
+            result += count;
+        return result;
     }
 
-    public static void SpawnWave(EnemySpawner spawner)
+    public void SpawnWave()
     {
-        TryFindInstance();
-
-        List<Enemy> currentEnemies = new();
-        foreach (Enemy potentialEnemy in instance.spawnableEnemies)
-            if (spawner.progression >= potentialEnemy.spawnProgressionStart &&
-                spawner.progression <= potentialEnemy.spawnProgressionEnd)
-                currentEnemies.Add(potentialEnemy);
-
-        int remainingPoints = spawner.difficultyPoints;
-        while (remainingPoints > 0)
+        int totalSpawned = 0, remaining;
+        while ((remaining = RemainingEnemiesToSpawn()) > 0)
         {
-            Enemy chosenEnemy = currentEnemies[Random.Range(0, currentEnemies.Count)];
-            int spawnCount = Random.Range(1,
-                Mathf.CeilToInt((float)remainingPoints / chosenEnemy.spawnPoints));
+            int randomIndex = Random.Range(0, remaining);
+            Enemy chosenEnemy = null;
+            for (int i = 0; i < toSpawnEnemies.Count; i++)
+            {
+                if ((randomIndex -= toSpawnEnemies[i].count) >= 0)
+                    continue;
+                chosenEnemy = toSpawnEnemies[i].type;
+                toSpawnEnemies[i] = (chosenEnemy, toSpawnEnemies[i].count - 1);
+            }
 
-            for (int i = 0; i < spawnCount; i++)
-                spawner.currentEnemies.Add(chosenEnemy.DelayedSpawn(spawner.GetEnemySpawnPos(),
-                    instance.spawnDelay + spawner.currentEnemies.Count * instance.spawnDelayPerEnemy,
-                    spawner));
-
-            remainingPoints -= spawnCount * chosenEnemy.spawnPoints;
+            currentEnemies.Add(chosenEnemy.DelayedSpawn(GetEnemySpawnPos(),
+                spawnDelay + totalSpawned++ * spawnDelayPerEnemy));
         }
+    }
+
+    public Vector3 GetEnemySpawnPos()
+    {
+        return transform.position + (spawnRadius * Random.insideUnitCircle).XZ_Y(0);
     }
 }

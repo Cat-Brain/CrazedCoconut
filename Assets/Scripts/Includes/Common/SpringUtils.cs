@@ -26,6 +26,7 @@
   EDITED FROM ORIGINAL SOURCE FOR C# / UNITY USEAGE
 ******************************************************************************/
 
+using ClownLib;
 using UnityEngine;
 
 public static class SpringUtils
@@ -150,5 +151,81 @@ public static class SpringUtils
 
         (pPos) = oldPos*springParams.m_posPosCoef + oldVel*springParams.m_posVelCoef + equilibriumPos;
         (pVel) = oldPos*springParams.m_velPosCoef + oldVel*springParams.m_velVelCoef;
+    }
+
+
+    class DampedSpring
+    {
+        protected tDampedSpringMotionParams motionParams;
+
+        public float frequency, damping;
+
+        public DampedSpring(float frequency, float damping)
+        {
+            motionParams = new tDampedSpringMotionParams();
+
+            this.frequency = frequency;
+            this.damping = damping;
+        }
+
+        public void Calculate()
+        {
+            CalcDampedSpringMotionParams(ref motionParams, Time.deltaTime, frequency, damping);
+        }
+
+        #region Update Functions
+        public void Update(ref float position, ref float velocity,
+            float equilibrium = 0, float multiplier = 1)
+        {
+            position /= multiplier;
+            equilibrium /= multiplier;
+
+            UpdateDampedSpringMotion(ref position, ref velocity, equilibrium, motionParams);
+
+            position *= multiplier;
+        }
+
+        public void Update(ref Vector2 position, ref Vector2 velocity,
+            Vector2 equilibrium, Vector2 multiplier)
+        {
+            position /= multiplier;
+            equilibrium /= multiplier;
+
+            UpdateDampedSpringMotion(ref position.x, ref velocity.x, equilibrium.x, motionParams);
+            UpdateDampedSpringMotion(ref position.y, ref velocity.y, equilibrium.y, motionParams);
+
+            position *= multiplier;
+        }
+        public void Update(ref Vector2 position, ref Vector2 velocity,
+            Vector2 equilibrium)
+        {
+            Update(ref position, ref velocity, equilibrium, Vector2.one);
+        }
+        public void Update(ref Vector2 position, ref Vector2 velocity)
+        {
+            Update(ref position, ref velocity, Vector2.zero);
+        }
+
+        public void Update(ref Vector3 position, ref Vector3 velocity,
+            Vector3 equilibrium, Vector3 multiplier)
+        {
+            position = position.Div(multiplier);
+            equilibrium = equilibrium.Div(multiplier);
+
+            UpdateDampedSpringMotion(ref position.x, ref velocity.x, equilibrium.x, motionParams);
+            UpdateDampedSpringMotion(ref position.y, ref velocity.y, equilibrium.y, motionParams);
+
+            position = position.Mul(multiplier);
+        }
+        public void Update(ref Vector3 position, ref Vector3 velocity,
+            Vector3 equilibrium)
+        {
+            Update(ref position, ref velocity, equilibrium, Vector3.one);
+        }
+        public void Update(ref Vector3 position, ref Vector3 velocity)
+        {
+            Update(ref position, ref velocity, Vector3.zero);
+        }
+        #endregion
     }
 }

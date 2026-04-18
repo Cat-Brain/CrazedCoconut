@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     public float startTime, finishTime;
 
     public List<int> menuPath;
+    public List<float> timeMultipliers;
     public bool paused;
 
     public static int IslandIndexToEnemyPoints(int islandIndex)
@@ -52,25 +53,47 @@ public class GameManager : MonoBehaviour
         return newSmoke;
     }
 
-    public void SetMenu(string path)
+    public void ResetMenu()
+    {
+        while (ToParentMenu()) ;
+    }
+
+    public bool ToParentMenu()
+    {
+        if (menuPath.Count <= 0)
+            return false;
+
+        menus[menuPath[^1]].SetActivate(false);
+        menuPath.RemoveAt(menuPath.Count - 1);
+        return true;
+    }
+
+    public void ApplyMenuDirection(string direction)
+    {
+        if (direction == "..")
+        {
+            ToParentMenu();
+            return;
+        }
+        if (direction == "-")
+        {
+            ResetMenu();
+            return;
+        }
+
+        int index = menus.FindIndex((menu) => menu.internalName == direction);
+        menus[index].SetActivate(true);
+        menuPath.Add(index);
+    }
+
+    public void ApplyMenuPath(string path)
     {
         if (path == "")
             return;
 
         string[] parsedPath = path.Split('/');
         foreach (string direction in parsedPath)
-        {
-            if (direction == "..")
-            {
-                menus[menuPath[^1]].SetActivate(false);
-                menuPath.RemoveAt(menuPath.Count);
-                continue;
-            }
-
-            int index = menus.FindIndex((menu) => menu.internalName == direction);
-            menus[index].SetActivate(true);
-            menuPath.Add(index);
-        }
+            ApplyMenuDirection(direction);
 
 
         /*switch (instance.gameState)
@@ -122,8 +145,22 @@ public class GameManager : MonoBehaviour
         instance.gameState = gameState;*/
     }
 
+    public void SetMenuPath(string path)
+    {
+        ResetMenu();
+        ApplyMenuPath(path);
+    }
+
     void Start()
     {
-        SetMenu(startMenuPath);   
+        SetMenuPath(startMenuPath);   
+    }
+
+    void LateUpdate()
+    {
+        float timeScale = 1;
+        foreach (float multiplier in timeMultipliers)
+            timeScale *= multiplier;
+        Time.timeScale = timeScale;
     }
 }
