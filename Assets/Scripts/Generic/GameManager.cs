@@ -1,3 +1,5 @@
+using com.cyborgAssets.inspectorButtonPro;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -24,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI speedrunText;
 
-    public GameObject smokePrefab;
+    public GameObject smokePrefab, explosionPrefab;
 
     public string mainMenuScene, inGameScene;
     public float waterLevel;
@@ -40,6 +42,8 @@ public class GameManager : MonoBehaviour
     public List<float> timeMultipliers;
     public bool paused;
 
+    public int currentWave = 0;
+
     public static int IslandIndexToEnemyPoints(int islandIndex)
     {
         return Mathf.FloorToInt(Instance.enemyPointStart[(int)Instance.difficulty] +
@@ -51,6 +55,13 @@ public class GameManager : MonoBehaviour
         GameObject newSmoke = Instantiate(instance.smokePrefab, pos, Quaternion.identity);
         newSmoke.transform.localScale *= scale;
         return newSmoke;
+    }
+
+    public GameObject SpawnExplosion(Vector3 pos, float scale = 1)
+    {
+        GameObject result = Instantiate(explosionPrefab, pos, Quaternion.identity);
+        result.transform.localScale *= scale;
+        return result;
     }
 
     public void ResetMenu()
@@ -65,6 +76,8 @@ public class GameManager : MonoBehaviour
 
         menus[menuPath[^1]].SetActivate(false);
         menuPath.RemoveAt(menuPath.Count - 1);
+        if (menuPath.Count > 0)
+            menus[menuPath[^1]].SetActivate(true);
         return true;
     }
 
@@ -81,11 +94,14 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        if (menuPath.Count > 0)
+            menus[menuPath[^1]].SetActivate(false);
         int index = menus.FindIndex((menu) => menu.internalName == direction);
         menus[index].SetActivate(true);
         menuPath.Add(index);
     }
 
+    [ProPlayButton]
     public void ApplyMenuPath(string path)
     {
         if (path == "")
@@ -149,6 +165,22 @@ public class GameManager : MonoBehaviour
     {
         ResetMenu();
         ApplyMenuPath(path);
+    }
+
+    public void StartTimer()
+    {
+        startTime = Time.time;
+    }
+
+    public void EndTimer()
+    {
+        finishTime = Time.time;
+    }
+
+    public string ReadTimer()
+    {
+        float elapsedTime = finishTime > startTime ? finishTime - startTime : Time.time - startTime;
+        return TimeSpan.FromSeconds(elapsedTime).ToString(@"mm\:ss\.F");
     }
 
     void Start()

@@ -195,6 +195,11 @@ namespace ClownLib
             return new Vector3(original.x, original.y, z);
         }
 
+        public static Vector4 XYZ_W3(this Vector3 original, float w = 0)
+        {
+            return new Vector4(original.x, original.y, original.z, w);
+        }
+
         public static Vector3 Mul3(Vector3 a, Vector3 b)
         {
             return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
@@ -504,6 +509,11 @@ namespace ClownLib
         public static Vector3 SetZ(this Vector3 original, float z = 0)
         {
             return CMath.SetZ_3(original, z);
+        }
+
+        public static Vector4 XYZ_W(this Vector3 original, float w = 0)
+        {
+            return CMath.XYZ_W3(original, w);
         }
 
         public static Vector3 Mul(this Vector3 a, Vector3 b)

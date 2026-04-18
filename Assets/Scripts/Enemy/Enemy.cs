@@ -24,6 +24,11 @@ public class Enemy : Entity
         EnemySpawnManager.Instance.currentEnemies.Remove(this);
     }
 
+    public bool CanSpawn(int wave)
+    {
+        return wave >= spawnProgressionStart && wave <= spawnProgressionEnd;
+    }
+
     public Enemy SimpleSpawn(Vector3 pos)
     {
         Enemy enemy = Instantiate(gameObject, pos, Random.rotation).GetComponent<Enemy>();

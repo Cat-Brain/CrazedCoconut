@@ -5,7 +5,7 @@ using System;
 public class SeedInstance
 {
     public Seed seed;
-    [HideInInspector] public DeckPile pile;
+    public DeckPile pile;
 
     public SeedInstance(Seed seed, DeckPile pile = DeckPile.UNSET)
     {
@@ -16,5 +16,10 @@ public class SeedInstance
     public GameObject Spawn(PlayerPlant player)
     {
         return seed.Spawn(player);
+    }
+
+    public static bool IsNull(SeedInstance instance)
+    {
+        return instance == null || instance.seed == null || instance.pile == DeckPile.UNSET;
     }
 }

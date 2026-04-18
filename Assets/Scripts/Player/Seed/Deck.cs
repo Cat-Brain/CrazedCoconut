@@ -15,6 +15,7 @@ public class Deck : MonoBehaviour
     public List<SeedInstance> draw = new(), discard = new(), exhaust = new();
     public SeedInstance hand = null;
 
+    public float playTime, discardTime;
     public float timeTillDraw = 0;
 
     public void AddSeed(Seed seed)
@@ -69,6 +70,9 @@ public class Deck : MonoBehaviour
         fromPile[index].pile = DeckPile.HAND;
         hand = fromPile[index];
         fromPile.RemoveAt(index);
+
+        if (fromPile.Count <= 0)
+            TransferCards(overflow, from);
     }
 
     public void TransferCards(DeckPile from, DeckPile to)
@@ -118,8 +122,11 @@ public class Deck : MonoBehaviour
 
     public GameObject Play()
     {
-        if (hand == null)
+        if (SeedInstance.IsNull(hand))
             return null;
+
+        timeTillDraw = Mathf.Max(0, timeTillDraw);
+        timeTillDraw += playTime;
 
         SeedInstance oldHand = hand;
         DiscardHand(DeckPile.DISCARD);
@@ -131,21 +138,31 @@ public class Deck : MonoBehaviour
         if (hand == null)
             return;
 
+        timeTillDraw = Mathf.Max(0, timeTillDraw);
+        timeTillDraw += discardTime;
+
         DiscardHand(DeckPile.DISCARD);
     }
 
     void Awake()
     {
         GameManager.Instance.combatEnter.AddListener(EnterCombat);
+        GameManager.Instance.combatExit.AddListener(ExitCombat);
 
         foreach (Seed seed in startingDeck)
             deck.Add(new SeedInstance(seed, DeckPile.DECK));
     }
 
+    void OnDestroy()
+    {
+        GameManager.Instance?.combatEnter?.RemoveListener(EnterCombat);
+        GameManager.Instance?.combatExit?.RemoveListener(ExitCombat);
+    }
+
     void Update()
     {
         timeTillDraw = Mathf.Max(0, timeTillDraw - Time.deltaTime);
-        if (hand == null && timeTillDraw <= 0)
+        if (SeedInstance.IsNull(hand) && (draw.Count > 0 || discard.Count > 0) && timeTillDraw <= 0)
             DrawSeed(Random.Range(0, draw.Count), DeckPile.DRAW, DeckPile.DISCARD);
     }
 }

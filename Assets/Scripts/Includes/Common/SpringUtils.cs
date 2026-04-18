@@ -27,6 +27,7 @@
 ******************************************************************************/
 
 using ClownLib;
+using System;
 using UnityEngine;
 
 public static class SpringUtils
@@ -154,22 +155,23 @@ public static class SpringUtils
     }
 
 
-    class DampedSpring
+    [Serializable]
+    public class DampedSpring
     {
-        protected tDampedSpringMotionParams motionParams;
+        protected tDampedSpringMotionParams motionParams = new();
 
         public float frequency, damping;
 
         public DampedSpring(float frequency, float damping)
         {
-            motionParams = new tDampedSpringMotionParams();
-
             this.frequency = frequency;
             this.damping = damping;
         }
 
         public void Calculate()
         {
+            if (motionParams == null)
+                motionParams = new();
             CalcDampedSpringMotionParams(ref motionParams, Time.deltaTime, frequency, damping);
         }
 

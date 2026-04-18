@@ -1,19 +1,16 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Float : MonoBehaviour
+public class FloatCall : MonoBehaviour
 {
     public float buoyancy, damping;
 
     private Rigidbody rb;
 
-    void FixedUpdate()
+    public void Activate()
     {
         if (rb == null)
             rb = GetComponent<Rigidbody>();
-
-        if (transform.position.y >= GameManager.Instance.waterLevel)
-            return;
 
         rb.AddForce(Vector3.up * buoyancy);
         float dampFactor = GetDampFactor();

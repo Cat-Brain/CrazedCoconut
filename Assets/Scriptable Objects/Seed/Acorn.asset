@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c7786b6ae1b754e858d20981f8b67b, type: 3}
-  m_Name: TestSeed 2
+  m_Name: Acorn
   m_EditorClassIdentifier: Assembly-CSharp::Seed
   prefab: {fileID: 6520981457346405788, guid: 2e610db6f84f2a846bb77747649de238, type: 3}
-  hVelMul: 1
-  vVel: 10
+  hVelMul: 2
+  vVel: 1
   rotate3D: 1
   maxRotVel: 1

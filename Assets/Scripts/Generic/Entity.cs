@@ -1,10 +1,9 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Entity : MonoBehaviour
 {
-    public TickEntity tickEntity;
-
-    public int deathTick;
+    public UnityEvent onDeath;
 
     public bool alive = true;
 
@@ -19,6 +18,6 @@ public class Entity : MonoBehaviour
 
     public virtual void OnDeath()
     {
-        tickEntity.Tick(deathTick);
+        onDeath?.Invoke();
     }
 }

@@ -1,6 +1,7 @@
 using ClownLib;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemySpawnManager : MonoBehaviour
 {
@@ -12,16 +13,21 @@ public class EnemySpawnManager : MonoBehaviour
             return instance;
     } }
 
-    public List<Enemy> spawnableEnemies;
+    public UnityEvent exitCombat;
+
+    public int startPoints, pointsPerWave;
+    public List<Enemy> enemyTypes;
     public float spawnDelay, spawnDelayPerEnemy, spawnRadius;
 
-    public List<(Enemy type, int count)> toSpawnEnemies = new();
+    public List<int> toSpawnEnemyCounts = new();
     public List<Enemy> currentEnemies = new();
+
+    public bool inWave = false;
 
     public int RemainingEnemiesToSpawn()
     {
         int result = 0;
-        foreach ((Enemy _, int count) in toSpawnEnemies)
+        foreach (int count in toSpawnEnemyCounts)
             result += count;
         return result;
     }
@@ -33,21 +39,82 @@ public class EnemySpawnManager : MonoBehaviour
         {
             int randomIndex = Random.Range(0, remaining);
             Enemy chosenEnemy = null;
-            for (int i = 0; i < toSpawnEnemies.Count; i++)
+            for (int i = 0; i < toSpawnEnemyCounts.Count; i++)
             {
-                if ((randomIndex -= toSpawnEnemies[i].count) >= 0)
+                if ((randomIndex -= toSpawnEnemyCounts[i]) >= 0)
                     continue;
-                chosenEnemy = toSpawnEnemies[i].type;
-                toSpawnEnemies[i] = (chosenEnemy, toSpawnEnemies[i].count - 1);
+                chosenEnemy = enemyTypes[i];
+                toSpawnEnemyCounts[i]--;
+                break;
             }
 
             currentEnemies.Add(chosenEnemy.DelayedSpawn(GetEnemySpawnPos(),
                 spawnDelay + totalSpawned++ * spawnDelayPerEnemy));
+            remaining--;
         }
+        inWave = true;
+        GameManager.Instance.combatEnter?.Invoke();
+    }
+
+    public int GetPoints()
+    {
+        return GameManager.Instance.currentWave * pointsPerWave + startPoints;
     }
 
     public Vector3 GetEnemySpawnPos()
     {
         return transform.position + (spawnRadius * Random.insideUnitCircle).XZ_Y(0);
+    }
+
+    public List<int> GetRandomEnemySpawnCounts()
+    {
+        List<int> results = new();
+
+        int desiredPoints = GetPoints();
+
+        float totalWeight = 0;
+        float[] randomWeights = new float[enemyTypes.Count];
+        for (int i = 0; i < randomWeights.Length; i++)
+        {
+            results.Add(0);
+            randomWeights[i] = enemyTypes[i].CanSpawn(
+                GameManager.Instance.currentWave) ? Random.value : 0;
+            totalWeight += randomWeights[i];
+        }
+        for (int i = 0; i < randomWeights.Length; i++)
+            randomWeights[i] /= totalWeight;
+
+        while (desiredPoints > 0)
+        {
+            float randomValue = Random.value;
+
+            for (int i = 0; i < randomWeights.Length; i++)
+            {
+                if ((randomValue -= randomWeights[i]) >= 0)
+                    continue;
+
+                results[i]++;
+                desiredPoints -= enemyTypes[i].spawnPoints;
+                break;
+            }
+        }
+        
+        return results;
+    }
+
+    void LateUpdate()
+    {
+        if (inWave && currentEnemies.Count <= 0)
+        {
+            inWave = false;
+            exitCombat?.Invoke();
+            GameManager.Instance.combatExit?.Invoke();
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.orange;
+        Gizmos.DrawWireSphere(transform.position, spawnRadius);
     }
 }

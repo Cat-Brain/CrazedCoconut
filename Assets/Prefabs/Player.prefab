@@ -11,14 +11,15 @@ GameObject:
   - component: {fileID: 8673491438991624299}
   - component: {fileID: 612878272666383951}
   - component: {fileID: 4572547981552278588}
-  - component: {fileID: 3302534203138791783}
   - component: {fileID: 3235614676798710907}
-  - component: {fileID: 6509061721654812266}
+  - component: {fileID: 3302534203138791783}
+  - component: {fileID: 4142196194773080481}
   - component: {fileID: 2995601328681806268}
   - component: {fileID: 55590101598027803}
-  - component: {fileID: 3187411104266032362}
   - component: {fileID: 7228085510232440305}
   - component: {fileID: 2065998985902400683}
+  - component: {fileID: 1540398715296493046}
+  - component: {fileID: 8250336116117708082}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -90,24 +91,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3302534203138791783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 67551434205001339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0813b4f18d4881428942a8c33de2852, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
-  tickEntity: {fileID: 6509061721654812266}
-  deathTick: 0
-  alive: 1
-  move: {fileID: 55590101598027803}
-  ability: {fileID: 0}
-  active: 1
 --- !u!114 &3235614676798710907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,7 +103,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68a237c3b4f6683418e4ec4a9d6d69e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DieBelowWaterLevel
---- !u!114 &6509061721654812266
+  onBelow:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3302534203138791783}
+        m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
+        m_MethodName: Die
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2995601328681806268}
+        m_TargetAssemblyTypeName: FloatCall, Assembly-CSharp
+        m_MethodName: Activate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3302534203138791783
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,10 +139,71 @@ MonoBehaviour:
   m_GameObject: {fileID: 67551434205001339}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17aa6f46dc7a1aa468b8f5331a0c945f, type: 3}
+  m_Script: {fileID: 11500000, guid: a0813b4f18d4881428942a8c33de2852, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TickEntity
-  tickComponents: []
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
+  onDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4142196194773080481}
+        m_TargetAssemblyTypeName: DisableComponentsCall, Assembly-CSharp
+        m_MethodName: Activate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1540398715296493046}
+        m_TargetAssemblyTypeName: ControlTimer, Assembly-CSharp
+        m_MethodName: Activate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8250336116117708082}
+        m_TargetAssemblyTypeName: ApplyMenuPathCall, Assembly-CSharp
+        m_MethodName: Activate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  alive: 1
+  seedTypes:
+  - {fileID: 11400000, guid: df1ac405a2343c045b8a71395f7bf100, type: 2}
+  - {fileID: 11400000, guid: b604bc609bbb97c4a932bd57d5a5758a, type: 2}
+  move: {fileID: 55590101598027803}
+  plant: {fileID: 7228085510232440305}
+  active: 1
+--- !u!114 &4142196194773080481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67551434205001339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf233191f2cbc844298a45b05256bfdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DisableComponentsCall
+  toDisable:
+  - {fileID: 55590101598027803}
+  - {fileID: 7228085510232440305}
+  - {fileID: 2065998985902400683}
 --- !u!114 &2995601328681806268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,20 +238,6 @@ MonoBehaviour:
   accel: 50
   speed: 10
   moveState: 0
---- !u!114 &3187411104266032362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 67551434205001339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2325e55e90d5b2f4493e014224a99799, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SetGameStateOnTick
-  tickIndex: 0
-  gameState: 3
 --- !u!114 &7228085510232440305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +287,32 @@ MonoBehaviour:
     seed: {fileID: 0}
     pile: 0
   timeTillDraw: 0
+--- !u!114 &1540398715296493046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67551434205001339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edccaee6d5f29344ea70278bb759d703, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ControlTimer
+  startTimer: 0
+--- !u!114 &8250336116117708082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67551434205001339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6a4464474b8342479491add0e7b83c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ApplyMenuPathCall
+  path: -/Lose
 --- !u!1001 &8573948587041968874
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,11 +12,12 @@ GameObject:
   - component: {fileID: 7231739771495156220}
   - component: {fileID: 7253601432010049612}
   - component: {fileID: 4780516347818612178}
-  - component: {fileID: 7851479317476163629}
-  - component: {fileID: -7806378142534161843}
   - component: {fileID: 3710538280736097701}
+  - component: {fileID: 5134156879533667825}
+  - component: {fileID: 1848980167258074631}
+  - component: {fileID: 1425026701509108669}
   m_Layer: 0
-  m_Name: Test Enemy
+  m_Name: Coco Bonker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +36,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2795266388657352055}
+  - {fileID: 3368204992475297956}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &7231739771495156220
@@ -98,40 +99,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68a237c3b4f6683418e4ec4a9d6d69e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DieBelowWaterLevel
---- !u!114 &7851479317476163629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4143985732924539085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17aa6f46dc7a1aa468b8f5331a0c945f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TickEntity
-  tickComponents: []
---- !u!114 &-7806378142534161843
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4143985732924539085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aa160e218e20d643877253987b3e69d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InstantiateOnTick
-  tickIndex: 0
-  toSpawn: {fileID: 1012011692588947349, guid: 6375d48dedb73dc498d7bf8d0de467b6, type: 3}
-  parentToSelf: 0
-  overrideX: 0
-  overrideY: 0
-  overrideZ: 0
-  forcedX: 0
-  forcedY: 0
-  forcedZ: 0
+  onBelow:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3710538280736097701}
+        m_TargetAssemblyTypeName: ChargerRollerEnemy, Assembly-CSharp
+        m_MethodName: Die
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5134156879533667825}
+        m_TargetAssemblyTypeName: FloatCall, Assembly-CSharp
+        m_MethodName: Activate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3710538280736097701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,15 +138,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45429190e7ae7474ca0d54f5b4835783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChargerRollerEnemy
-  tickEntity: {fileID: 7851479317476163629}
-  deathTick: 0
+  onDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1848980167258074631}
+        m_TargetAssemblyTypeName: DisableComponentsCall, Assembly-CSharp
+        m_MethodName: Activate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1425026701509108669}
+        m_TargetAssemblyTypeName: TurnToPlayer, Assembly-CSharp
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   alive: 1
-  spawner: {fileID: 0}
   smokeScale: 1
   spawnDuration: 1
   spawnPoints: 5
   spawnProgressionStart: 0
-  spawnProgressionEnd: 10
+  spawnProgressionEnd: 9999
   player: {fileID: 0}
   rb: {fileID: 7253601432010049612}
   accel: 10
@@ -170,7 +188,48 @@ MonoBehaviour:
   playerTag: Player
   chargeAccel: 60
   chargeSpeed: 20
---- !u!1001 &2396054111628806812
+--- !u!114 &5134156879533667825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4143985732924539085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11e791b7d3aa43b4ab151b46e52aa4f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Float
+  buoyancy: 15
+  damping: 0.5
+--- !u!114 &1848980167258074631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4143985732924539085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf233191f2cbc844298a45b05256bfdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DisableComponentsCall
+  toDisable:
+  - {fileID: 3710538280736097701}
+--- !u!114 &1425026701509108669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4143985732924539085}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48a367bab95f7164fbf23284470073eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurnToPlayer
+  slerpSpeed: 1
+--- !u!1001 &2969277214963703631
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -178,57 +237,57 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6697081616136382891}
     m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 8b5ba30294ddee84fa837127b0e36e32, type: 3}
+    - target: {fileID: -8679921383154817045, guid: bdc8e24f7cff3a149abdab76c969a942, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8b5ba30294ddee84fa837127b0e36e32, type: 3}
+    - target: {fileID: -8679921383154817045, guid: bdc8e24f7cff3a149abdab76c969a942, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8b5ba30294ddee84fa837127b0e36e32, type: 3}
+    - target: {fileID: -8679921383154817045, guid: bdc8e24f7cff3a149abdab76c969a942, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8b5ba30294ddee84fa837127b0e36e32, type: 3}
+    - target: {fileID: -8679921383154817045, guid: bdc8e24f7cff3a149abdab76c969a942, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8b5ba30294ddee84fa837127b0e36e32, type: 3}
+    - target: {fileID: -8679921383154817045, guid: bdc8e24f7cff3a149abdab76c969a942, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8b5ba30294ddee84fa837127b0e36e32, type: 3}
+    - target: {fileID: -8679921383154817045, guid: bdc8e24f7cff3a149abdab76c969a942, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8b5ba30294ddee84fa837127b0e36e32, type: 3}
+    - target: {fileID: -8679921383154817045, guid: bdc8e24f7cff3a149abdab76c969a942, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8b5ba30294ddee84fa837127b0e36e32, type: 3}
+    - target: {fileID: -8679921383154817045, guid: bdc8e24f7cff3a149abdab76c969a942, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8b5ba30294ddee84fa837127b0e36e32, type: 3}
+    - target: {fileID: -8679921383154817045, guid: bdc8e24f7cff3a149abdab76c969a942, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 8b5ba30294ddee84fa837127b0e36e32, type: 3}
+    - target: {fileID: -8679921383154817045, guid: bdc8e24f7cff3a149abdab76c969a942, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 8b5ba30294ddee84fa837127b0e36e32, type: 3}
+    - target: {fileID: 919132149155446097, guid: bdc8e24f7cff3a149abdab76c969a942, type: 3}
       propertyPath: m_Name
-      value: CocofishBonker
+      value: CocoBonker
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8b5ba30294ddee84fa837127b0e36e32, type: 3}
---- !u!4 &2795266388657352055 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: bdc8e24f7cff3a149abdab76c969a942, type: 3}
+--- !u!4 &3368204992475297956 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8b5ba30294ddee84fa837127b0e36e32, type: 3}
-  m_PrefabInstance: {fileID: 2396054111628806812}
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bdc8e24f7cff3a149abdab76c969a942, type: 3}
+  m_PrefabInstance: {fileID: 2969277214963703631}
   m_PrefabAsset: {fileID: 0}
