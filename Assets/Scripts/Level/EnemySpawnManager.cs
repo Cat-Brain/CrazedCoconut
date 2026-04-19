@@ -50,7 +50,6 @@ public class EnemySpawnManager : MonoBehaviour
 
             currentEnemies.Add(chosenEnemy.DelayedSpawn(GetEnemySpawnPos(),
                 spawnDelay + totalSpawned++ * spawnDelayPerEnemy));
-            remaining--;
         }
         inWave = true;
         GameManager.Instance.combatEnter?.Invoke();

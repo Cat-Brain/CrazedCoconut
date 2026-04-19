@@ -8,6 +8,9 @@ public class UpdateInGameUI : MonoBehaviour
 
     void LateUpdate()
     {
+        if (!PlayerManager.Instance || !PlayerManager.Instance.plant || !PlayerManager.Instance.plant.deck)
+            return;
+
         Deck deck = PlayerManager.Instance.plant.deck;
         bool handNull = SeedInstance.IsNull(deck.hand);
         if (handNull && deck.draw.Count == 0 && deck.discard.Count == 0)
